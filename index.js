@@ -1,77 +1,8 @@
-/** --------------------------------------------------------------------------
- *	jQuery URL Decoder
- *	Version 1.0
- *	Parses URL and return its components. Can also build URL from components
- *	
- * ---------------------------------------------------------------------------
- *	HOW TO USE:
- *
- *	$.url.decode('http://username:password@hostname/path?arg1=value%40+1&arg2=touch%C3%A9#anchor')
- *	// returns
- *	// http://username:password@hostname/path?arg1=value@ 1&arg2=touché#anchor
- *	// Note: "%40" is replaced with "@", "+" is replaced with " " and "%C3%A9" is replaced with "é"
- *	
- *	$.url.encode('file.htm?arg1=value1 @#456&amp;arg2=value2 touché')
- *	// returns
- *	// file.htm%3Farg1%3Dvalue1%20%40%23456%26arg2%3Dvalue2%20touch%C3%A9
- *	// Note: "@" is replaced with "%40" and "é" is replaced with "%C3%A9"
- *	
- *	$.url.parse('http://username:password@hostname/path?arg1=value%40+1&arg2=touch%C3%A9#anchor')
- *	// returns
- *	{
- *		source: 'http://username:password@hostname/path?arg1=value%40+1&arg2=touch%C3%A9#anchor',
- *		protocol: 'http',
- *		authority: 'username:password@hostname',
- *		userInfo: 'username:password',
- *		user: 'username',
- *		password: 'password',
- *		host: 'hostname',
- *		port: '',
- *		path: '/path',
- *		directory: '/path',
- *		file: '',
- *		relative: '/path?arg1=value%40+1&arg2=touch%C3%A9#anchor',
- *		query: 'arg1=value%40+1&arg2=touch%C3%A9',
- *		anchor: 'anchor',
- *		params: {
- *			'arg1': 'value@ 1',
- *			'arg2': 'touché'
- *		}
- *	}
- *	
- *	$.url.build({
- *		protocol: 'http',
- *		user: 'username',
- *		password: 'password',
- *		host: 'hostname',
- *		path: '/path',
- *		query: 'arg1=value%40+1&arg2=touch%C3%A9',
- *		// or 
- *		//params: {
- *		//	'arg1': 'value@ 1',
- *		//	'arg2': 'touché'
- *		//}
- *		anchor: 'anchor',
- *	})
- *	// returns
- *	// http://username:password@hostname/path?arg1=value%40+1&arg2=touch%C3%A9#anchor	
- *	
- * ---------------------------------------------------------------------------
- * OTHER PARTIES' CODE:
- *
- * Parser based on the Regex-based URI parser by Steven Levithan.
- * For more information visit http://blog.stevenlevithan.com/archives/parseuri
- *
- * Deparam taken from jQuery BBQ by Ben Alman. Dual licensed under the MIT and GPL licenses (http://benalman.com/about/license/)
- * http://benalman.com/projects/jquery-bbq-plugin/
- *  
- * ---------------------------------------------------------------------------
+
 	
-*/
-	
-	let param = require('./jquery-param.js');
-	let deparam = require('./deparam.js');
-	let {decode, encode} = require('./decode.js');
+	const param = require('./jquery-param.js');
+	const deparam = require('./deparam.js');
+	const {decode, encode} = require('./decode.js');
 	
      /**
      * private function to parse URL to components
