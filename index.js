@@ -19,10 +19,11 @@
 		
 		/**
 		* @author of RegExp Steven Levithan 
+		* @editor Dmitriy Rakov
 		*/
-		var re = /^((?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):(?:\/\/)?)?((?:(([^:@]*):?([^:@]*))@)?([^:\/?#]*)(?::(\d*))?))(((\/(?:(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/)?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)$/;
+		var re = /^((?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):(?:\/\/)?)?((?:(([^:@]*):?([^:@]*))@)?([^:\/?#]*)(?::(\d*))?))(((\/(?:(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/)?)?([^?#\/]*))(?:\?([^#]*))?(#(.*))?)$/;
 		
-		var keys = ["source","domain", "protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"];
+		var keys = ["source","domain", "protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","local", "anchor"];
 		
 		var m = re.exec( url_str );
 		var uri = {};
@@ -126,15 +127,21 @@
 
 			if (url_obj.query){
 				resultArr.push('?' + url_obj.query);
-			} else  if(url_obj.params){
-				resultArr.push('?' + $.param(url_obj.params));
+			} else if(url_obj.params){
+				let query = param(url_obj.params);
+				if(query){
+					resultArr.push('?' + query);
+				}
 			}
 			
 			if (url_obj.anchor){
 				resultArr.push('#' + url_obj.anchor);
 			}
 			else if(url_obj.anchorParams){
-				resultArr.push('#' + $.param(url_obj.anchorParams));
+				let query = param(url_obj.anchorParams);
+				if(query){
+					resultArr.push('#' + query);
+				}
 			}
 		}
 		
@@ -159,13 +166,16 @@
 		"fileExt":"file",
 		"query":"relative",
 		"params":"query",
-		"anchor":"relative",
+		"local":"relative",
+		"anchor":"local",
 		"anchorParams":"anchor"
 	};
 	
 	function kill(url_obj, el_name){
 		if(url_obj[el_name]){
 			delete url_obj[el_name];
+		}
+		if(parents[el_name]){
 			kill(url_obj, parents[el_name]);
 		}
 	}

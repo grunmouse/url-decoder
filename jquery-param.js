@@ -1,4 +1,3 @@
-let {isArrayLike, isArray, isPlainObject, isFunction, type} = require('@rakov/fw');
 
 var r20 = /%20/g,
 	rbracket = /\[\]$/,
@@ -9,7 +8,7 @@ var r20 = /%20/g,
 function buildParams( prefix, obj, traditional, add ) {
 	var name;
 
-	if ( isArray( obj ) ) {
+	if ( Array.isArray( obj ) ) {
 		// Serialize array item.
 		obj.forEach(function( v, i ) {
 			if ( traditional || rbracket.test( prefix ) ) {
@@ -23,7 +22,7 @@ function buildParams( prefix, obj, traditional, add ) {
 			}
 		});
 
-	} else if ( !traditional && type( obj ) === "object" ) {
+	} else if ( !traditional && typeof obj === "object" && !obj) {
 		// Serialize object item.
 		for ( name in obj ) {
 			buildParams( prefix + "[" + name + "]", obj[ name ], traditional, add );
@@ -40,13 +39,13 @@ function param( a, traditional ) {
 		s = [],
 		add = function( key, value ) {
 			// If value is a function, invoke it and return its value
-			value = isFunction( value ) ? value() : ( value == null ? "" : value );
+			value = value.call ? value() : ( value == null ? "" : value );
 			s[ s.length ] = encodeURIComponent( key ) + "=" + encodeURIComponent( value );
 		};
 
 
 	// If an array was passed in, assume that it is an array of form elements.
-	if ( isArray( a )) {
+	if ( Array.isArray( a )) {
 		// Serialize the form elements
 		a.forEach(function(val) {
 			add( val.name, val.value );
