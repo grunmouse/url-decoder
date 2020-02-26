@@ -102,3 +102,5 @@ let {decode} = require('./decode.js');
 	
 		return obj;
 	}
+	
+	module.exports = deparam;
